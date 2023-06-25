@@ -8,13 +8,17 @@ const Popup = () => {
       const [isMuted, setIsMuted] = createStoredSignal<MutePayload>(LocalStorageKey.isMuted, { isMuted: false });
       const toggleMuted = () => {
             const newValue = setIsMuted(payload => { return { isMuted: !payload.isMuted } });
-            chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            chrome.tabs.query({ currentWindow: true }, (tabs) => {
                   const message: SetMuteMessage = {
                         key: LocalStorageKey.isMuted,
                         payload: newValue,
                   };
 
-                  chrome.tabs.sendMessage(tabs[0].id, message).catch(console.error);
+                  for (const tab of tabs) {
+                        if (tab.url && tab.url.includes("justdancenow.com")) {
+                              chrome.tabs.sendMessage(tab.id, message).catch(console.error);
+                        }
+                  }
             });
       };
       return (

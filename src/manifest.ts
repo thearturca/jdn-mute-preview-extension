@@ -13,7 +13,7 @@ const manifest = defineManifest(async () => ({
       name: packageJson.displayName ?? packageJson.name,
       version: `${major}.${minor}.${patch}.${label}`,
       description: packageJson.description,
-      permissions: ["activeTab", "scripting", "storage"],
+      permissions: ["activeTab", "tabs", "scripting", "storage"],
       host_permissions: ["*://justdancenow.com/*"],
       background: { service_worker: "src/pages/background/index.ts" },
       action: {
