@@ -8,33 +8,29 @@ const Popup = () => {
       const [isMuted, setIsMuted] = createStoredSignal<MutePayload>(LocalStorageKey.isMuted, { isMuted: false });
       const toggleMuted = () => {
             const newValue = setIsMuted(payload => { return { isMuted: !payload.isMuted } });
-            try {
-                  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-                        const message: SetMuteMessage = {
-                              key: LocalStorageKey.isMuted,
-                              payload: newValue,
-                        };
+            chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+                  const message: SetMuteMessage = {
+                        key: LocalStorageKey.isMuted,
+                        payload: newValue,
+                  };
 
-                        try {
-                              chrome.tabs.sendMessage(tabs[0].id, message);
-                        }
-                        catch (error) {
-                        }
-                  });
-
-            }
-            catch (error) {
-            }
+                  chrome.tabs.sendMessage(tabs[0].id, message).catch(console.error);
+            });
       };
       return (
             <div class={styles.App}>
-                  <header class={styles.header}>
-                        <button class={styles["btn-blue"]} onClick={toggleMuted}>
+                  <main class={styles.header}>
+                        <button class={`${isMuted().isMuted ? styles["btn-fuchsia"] : styles["btn-off"]} ${styles["btn"]}`} onClick={toggleMuted}>
                               <h1 class={styles.h1}>
                                     {isMuted().isMuted ? "Unmute" : "Mute"}
                               </h1>
                         </button>
-                  </header>
+                  </main>
+                  <footer class="p-6">
+                        <span class="text-base font-bold uppercase text-white">
+                              {!isMuted().isMuted ? "Unmuted" : "Muted"} <span class="text-yellow-300">Now</span>
+                        </span>
+                  </footer>
             </div >
       );
 };
