@@ -29,7 +29,6 @@ const manifest = defineManifest(async () => ({
                   js: ["src/pages/content/index.tsx"],
             },
       ],
-      devtools_page: "src/pages/devtools/index.html",
       web_accessible_resources: [
             {
                   resources: ["assets/js/*.js", "assets/css/*.css", "assets/img/*"],
