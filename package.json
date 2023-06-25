@@ -1,8 +1,8 @@
 {
     "name": "jd-mute-preview",
-    "displayName": "JD mute preview",
+    "displayName": "JDN Mute NOW",
     "version": "1.0.0",
-    "description": "mute preview in JDN",
+    "description": "Easily mute song preview in JUST DANCE NOW",
     "license": "MIT",
     "scripts": {
         "dev": "vite build -w",
